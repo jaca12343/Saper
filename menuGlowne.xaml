@@ -20,9 +20,9 @@
                 </Grid>
                 <Grid Height="250" Width="380" Margin="385,50,-5,0" VerticalAlignment="Top">
                     <TextBox HorizontalAlignment="Center" Margin="0,30,0,0" TextWrapping="Wrap" Text="Wybierz trudność gry" VerticalAlignment="Top" Width="120"/>
-                    <RadioButton Content="łatwy (1/4)" HorizontalAlignment="Center" Margin="0,60,0,0" VerticalAlignment="Top"/>
-                    <RadioButton Content="Normalny (1/3)" HorizontalAlignment="Center" Margin="0,90,0,0" VerticalAlignment="Top"/>
-                    <RadioButton Content="ciężki (1/2)" HorizontalAlignment="Center" Margin="0,120,0,0" VerticalAlignment="Top"/>
+                    <RadioButton Content="łatwy (1/4)" HorizontalAlignment="Center" Margin="0,60,0,0" VerticalAlignment="Top" x:Name="easyLvl"/>
+                    <RadioButton Content="Normalny (1/3)" HorizontalAlignment="Center" Margin="0,90,0,0" VerticalAlignment="Top" x:Name="mediumLvl"/>
+                    <RadioButton Content="ciężki (1/2)" HorizontalAlignment="Center" Margin="0,120,0,0" VerticalAlignment="Top" x:Name="hardLvl"/>
 
                 </Grid>
                 <Button Content="Rozpocznij grę" HorizontalAlignment="Center" Margin="0,384,0,0" VerticalAlignment="Top" Click="Button_Click"/>

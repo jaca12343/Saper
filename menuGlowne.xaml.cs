@@ -43,7 +43,13 @@ namespace Saper
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new game());
+            int dificultyLevel;
+            if (hardLvl.IsChecked == true)
+                dificultyLevel = 3;
+            else if(mediumLvl.IsChecked == true)
+                dificultyLevel = 2;
+            else dificultyLevel = 1;
+                NavigationService.Navigate(new game((int)Math.Round(sliderWidth.Value), (int)Math.Round(sliderHeight.Value), dificultyLevel));
         }
     }
 }

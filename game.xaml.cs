@@ -24,12 +24,42 @@ namespace Saper
         {
             InitializeComponent();
         }
-        public game(int width, int height) {
+        public List<List<Label>> labels = new List<List<Label>>();
+        public game(int width, int height, int dificulty) {
             InitializeComponent();
+            gameGrid.Children.Clear();
             for (int x = 0; x < width; x++)
             {
+                ColumnDefinition col = new ColumnDefinition();
+                col.Width = new GridLength(1, GridUnitType.Star);
+                gameGrid.ColumnDefinitions.Add(col);
                 
             }
+            for (int y = 0; y < height; y++)
+            {
+                RowDefinition row = new RowDefinition();
+                row.Height = new GridLength(1, GridUnitType.Star);
+                gameGrid.RowDefinitions.Add(row);
+            }
+            for (int x = 0; x < width; x++)
+            {
+                labels.Add(new List<Label>());
+                for (int y = 0; y < height; y++)
+                {
+                    Label label = new Label();
+                    label.Content = "r" + x + "c" + y;
+                    gameGrid.Children.Add(label);
+                    Grid.SetRow(label, y);
+                    Grid.SetColumn(label, x);
+                    labels[x].Add(label);
+                }
+            }
+        }
+        public int dificulty;
+
+        private void startNewGame(object sender, MouseButtonEventArgs e)
+        {
+            NavigationService.GoBack();
         }
     }
 }
