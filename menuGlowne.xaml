@@ -14,9 +14,9 @@
                 <TextBox HorizontalAlignment="Center" Margin="0,10,0,0" TextWrapping="Wrap" Text="Saper" VerticalAlignment="Top" Width="120" TextAlignment="Center"/>
                 <Grid Height="250" Width="380" Margin="0,50,400,0" VerticalAlignment="Top">
                     <TextBox HorizontalAlignment="Center" Margin="0,30,0,0" TextWrapping="Wrap" Text="Szerokość: " VerticalAlignment="Top" Width="120" TextAlignment="Center" x:Name="txtboxWidth"/>
-                    <Slider HorizontalAlignment="Center" Margin="0,60,0,0" VerticalAlignment="Top" Width="350" Height="25" Value="10"  Maximum="20" ValueChanged="Slider_ValueChangedX" SmallChange="1" Minimum="1" x:Name="sliderWidth"/>
+                    <Slider HorizontalAlignment="Center" Margin="0,60,0,0" VerticalAlignment="Top" Width="350" Height="25" Value="10"  Maximum="25" ValueChanged="Slider_ValueChangedX" SmallChange="1" Minimum="4" x:Name="sliderWidth"/>
                     <TextBox HorizontalAlignment="Center" Margin="0,100,0,0" TextWrapping="Wrap" Text="Szerokość: " VerticalAlignment="Top" Width="120" TextAlignment="Center" x:Name="txtboxHeight"/>
-                    <Slider HorizontalAlignment="Center" Margin="0,130,0,0" VerticalAlignment="Top" Width="350" Height="25" Value="10"  Maximum="20" ValueChanged="Slider_ValueChangedY" SmallChange="1" Minimum="1" x:Name="sliderHeight"/>
+                    <Slider HorizontalAlignment="Center" Margin="0,130,0,0" VerticalAlignment="Top" Width="350" Height="25" Value="10"  Maximum="25" ValueChanged="Slider_ValueChangedY" SmallChange="1" Minimum="4" x:Name="sliderHeight"/>
                 </Grid>
                 <Grid Height="250" Width="380" Margin="385,50,-5,0" VerticalAlignment="Top">
                     <TextBox HorizontalAlignment="Center" Margin="0,30,0,0" TextWrapping="Wrap" Text="Wybierz trudność gry" VerticalAlignment="Top" Width="120"/>
