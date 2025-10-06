@@ -16,12 +16,12 @@
             <TextBox TextWrapping="Wrap" Text="TextBox" Width="120" Height="20" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,10,10,0"/>
         </Grid>
         <Viewbox Margin="0,50,0,0">
-            <Grid Height="400" Width="800" x:Name="gameGrid">
+            <Grid Height="400" Width="800" Margin="30" x:Name="gameGrid">
                 <Grid.RowDefinitions>
                     
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    
+
                 </Grid.ColumnDefinitions>
             </Grid>
         </Viewbox>
