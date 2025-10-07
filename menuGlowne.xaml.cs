@@ -43,7 +43,7 @@ namespace Saper
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            int dificultyLevel;
+            int dificultyLevel = -1;
             if (hardLvl.IsChecked == true)
                 dificultyLevel = 3;
             else if(mediumLvl.IsChecked == true)

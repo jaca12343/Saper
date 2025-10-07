@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace Saper
 {
@@ -30,7 +32,10 @@ namespace Saper
         }
         public List<List<Button>> buttons = new List<List<Button>>();
         public List<List<int>> values = new List<List<int>>();
-        public List<List<bool>> shown = new List<List<bool>>();
+        public List<List<int>> state = new List<List<int>>();//0 - covered, 1 - uncovered, 2 - flagged
+        DispatcherTimer timer;
+        DateTime start;
+        int numberOfFlags;
         public game(int width, int height, int dif) {
             InitializeComponent();
 
@@ -61,18 +66,56 @@ namespace Saper
             {
                 buttons.Add(new List<Button>());
                 values.Add(new List<int>());
-                shown.Add(new List<bool>());
+                state.Add(new List<int>());
                 for (int y = 0; y < height; y++)
                 {
                     Button label = new Button();
                     values[x].Add(0);
-                    shown[x].Add(false);
+                    state[x].Add(0);
                     gameGrid.Children.Add(label);
                     Grid.SetRow(label, y);
                     Grid.SetColumn(label, x);
                     buttons[x].Add(label);
                     label.Click += GenerateBombs;
                 }
+            }
+            //pokazywanie ilości flag
+            int divident, numberOfBombs;
+            switch (dificulty)
+            {
+                case 1:
+                    divident = 5;
+                    break;
+                case 2:
+                    divident = 4;
+                    break;
+                case 3:
+                    divident = 3;
+                    break;
+                default:
+                    divident = 5;
+                    break;
+
+            }
+            numberOfBombs = (width * height) / divident;
+            TxtBoxFlags.Text = "Flagi: " + numberOfBombs;
+            numberOfFlags = numberOfBombs;
+
+
+            timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromMilliseconds(100);
+            timer.Tick += TimerTick;
+            
+        }
+        private void TimerTick(object sender, EventArgs e)
+        {
+            if ((DateTime.Now - start).TotalMinutes < 1)
+            {
+                TxtBoxTimer.Text = "Czas: " + (Math.Round((DateTime.Now - start).TotalSeconds)).ToString();
+            }
+            else
+            {
+                TxtBoxTimer.Text = "Czas: " + (Math.Round((DateTime.Now - start).TotalMinutes)).ToString() + ":" + (Math.Round((DateTime.Now - start).TotalSeconds % 60)).ToString();
             }
         }
         private void showValues()
@@ -108,36 +151,49 @@ namespace Saper
                         clickedX = x;
                         clickedY = y;
                     }
-            showField(clickedX, clickedY);
+            showField(clickedX, clickedY, true);
         }
-        private void showField(int x, int y)
+        private void showField(int x, int y, bool primary)
         {
-            if (values[x][y] == -1)      //Game over
-                return;
-            if(values[x][y] == 0 && !shown[x][y])
+            if (values[x][y] == -1 && state[x][y] == 0)
+            {  //Game over
+                buttons[x][y].Background = new SolidColorBrush(Colors.Red);
+                buttons[x][y].Content = "boom";
+            }
+            if (values[x][y] == 0 && state[x][y] == 0)
             {
-                shown[x][y] = true;
+                state[x][y] = 1;
                 buttons[x][y].Background = new SolidColorBrush(Colors.Green);
                 buttons[x][y].Content = "0";
                 for(int i = x - 1; i <= x + 1; i++)
-                {
-                    if (i == -1 || i == width)
-                        continue;
                     for(int j = y - 1; j <= y + 1; j++)
-                    {
-                        if (j == -1 || j == height)
-                            continue;
-                        showField(i, j);
-                    }
-                }
+                        if (i != -1 && i != width && j != -1 && j != height)
+                            showField(i, j, false);
             }
-            if(values[x][y] > 0 && !shown[x][y])
+            if(values[x][y] > 0 && state[x][y] == 0)
             {
-                shown[x][y] = true;
+                state[x][y] = 1;
                 buttons[x][y].Background = new SolidColorBrush(Colors.Yellow);
                 buttons[x][y].Content = values[x][y].ToString();
             }
+            if (values[x][y] > 0 && state[x][y] == 1 && primary && CheckNOFlags(x,y))
+            {
+                for (int i = x - 1; i <= x + 1; i++)
+                    for (int j = y - 1; j <= y + 1; j++)
+                        if (i != -1 && i != width && j != -1 && j != height && state[i][j] != 2)
+                            showField(i, j, false);
+            }
 
+        }
+        private bool CheckNOFlags(int x, int y)
+        {
+            int NOFlags = 0;
+            for (int i = x - 1; i <= x + 1; i++)
+                for (int j = y - 1; j <= y + 1; j++)
+                    if(i != -1 && i != width && j != -1 && j != height)
+                        if (state[i][j] == 2)
+                            NOFlags++;
+            return NOFlags == values[x][y];
         }
         private void GenerateBombs(object sender, RoutedEventArgs e)
         {
@@ -163,13 +219,13 @@ namespace Saper
             switch (dificulty)
             {
                 case 1:
-                    divident = 4;
+                    divident = 5;
                     break;
                 case 2:
-                    divident = 3;
+                    divident = 4;
                     break;
                 case 3:
-                    divident = 2;
+                    divident = 3;
                     break;
                 default:
                     divident = 5;
@@ -218,12 +274,41 @@ namespace Saper
                 {
                     buttons[x][y].Click -= GenerateBombs;
                     buttons[x][y].Click += showValues;
+                    buttons[x][y].MouseRightButtonDown += PlaceFlag;
                 }
             }
             //showValues();
-            showField(clickedX, clickedY);
+            showField(clickedX, clickedY, false);
+            start = DateTime.Now;
+            timer.Start();
         }
-
+        private void PlaceFlag(object sender, RoutedEventArgs e)
+        {
+            int clickedX = 0, clickedY = 0;
+            for (int x = 0; x < width; x++)
+                for (int y = 0; y < height; y++)
+                    if (buttons[x][y] == sender)
+                    {
+                        clickedX = x;
+                        clickedY = y;
+                    }
+            if (state[clickedX][clickedY] == 0)
+            {
+                state[clickedX][clickedY] = 2;
+                buttons[clickedX][clickedY].Background = new SolidColorBrush(Colors.Orange);
+                buttons[clickedX][clickedY].Content = "F";
+                numberOfFlags--;
+                TxtBoxFlags.Text = "Flagi: " + numberOfFlags;
+            }
+            else if (state[clickedX][clickedY] == 2)
+            {
+                state[clickedX][clickedY] = 0;
+                buttons[clickedX][clickedY].Background = new SolidColorBrush(Colors.LightGray);
+                buttons[clickedX][clickedY].Content = "";
+                numberOfFlags--;
+                TxtBoxFlags.Text = "Flagi: " + numberOfFlags;
+            }
+        }
         private void StartNewGame(object sender, MouseButtonEventArgs e)
         {
             NavigationService.GoBack();
