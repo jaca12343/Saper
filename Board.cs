@@ -29,7 +29,10 @@ namespace Saper
             this.height = height;
             this.difficulty = dif;
             CurrentGame = g;
+            fields = new List<List<Field>>();
             AdjustingGameGrid();
+            CreateButtons();
+
         }
         public int GetWidth()
         {
@@ -74,7 +77,7 @@ namespace Saper
                 fields.Add(new List<Field>());
                 for (int y = 0; y < height; y++)
                 {
-                    fields[x][y] = new Field(this);
+                    fields[x].Add(new Field(this));
                     gameGrid.Children.Add(fields[x][y].GetImage());
                     Grid.SetRow(fields[x][y].GetImage(), y);
                     Grid.SetColumn(fields[x][y].GetImage(), x);
