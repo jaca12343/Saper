@@ -33,7 +33,6 @@ namespace Saper
         }
         public DispatcherTimer timer;
         public DateTime start;
-        int numberOfFlags;
         public game(int width, int height, int dif) {
             InitializeComponent();
 
@@ -68,7 +67,7 @@ namespace Saper
             }
             numberOfBombs = (width * height) / divident;
             TxtBoxFlags.Text = "Flagi: " + numberOfBombs;
-            numberOfFlags = numberOfBombs;
+            myBoard.SetFlagNumber(numberOfBombs);
 
 
             timer = new DispatcherTimer();

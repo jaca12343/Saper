@@ -225,6 +225,7 @@ namespace Saper
                         clickedY = y;
                     }
             numberOfFlags += fields[clickedX][clickedY].ToggleFlag();
+            CurrentGame.TxtBoxFlags.Text = numberOfFlags.ToString();
         }
         private bool CheckNOFlags(int x, int y)
         {

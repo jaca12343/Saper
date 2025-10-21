@@ -111,10 +111,26 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\trawa.png" />
+    <Resource Include="images\buzka.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\buzka.png" />
+    <Resource Include="images\bosnia.png" />
+    <Resource Include="images\eight.png" />
+    <Resource Include="images\five.png" />
+    <Resource Include="images\flag.png" />
+    <Resource Include="images\four.png" />
+    <Resource Include="images\grass.png" />
+    <Resource Include="images\one.png" />
+    <Resource Include="images\seven.png" />
+    <Resource Include="images\six.png" />
+    <Resource Include="images\three.png" />
+    <Resource Include="images\two.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\empty.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\bomb.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
